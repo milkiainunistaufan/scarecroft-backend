@@ -1,33 +1,34 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase.js'; // 1. Import konfigurasi Supabase Client Anda
 
 export default function InboxDashboard() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        // GANTI URL INI DENGAN URL BACKEND API VERCEL ANDA
-        const response = await fetch('https://scarecroft-restfulapi.vercel.app/api/messages');
-        const data = await response.json();
-        
-        if (response.ok) {
-          setMessages(data);
-        } else {
-          setError(data.error || 'Gagal mengambil data pesan.');
-        }
-      } catch (err) {
-        setError('Gagal terhubung ke server API.');
-      } finally {
-        setLoading(false);
+useEffect(() => {
+  const fetchMessages = async () => {
+    try {
+      // Memanggil API internal Next.js yang sudah di-bypass di sisi server
+      const response = await fetch('/api/messages');
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMessages(data);
+      } else {
+        setError(data.error || 'Gagal mengambil data pesan.');
       }
-    };
+    } catch (err) {
+      setError('Gagal terhubung ke server API.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchMessages();
-  }, []);
+  fetchMessages();
+}, []);
 
   return (
     <main className="min-h-screen bg-gray-900 text-white p-8">
@@ -77,9 +78,13 @@ export default function InboxDashboard() {
                         <td className="p-4 space-y-1">
                           <div className="text-gray-300">{msg.email}</div>
                           <div className="text-indigo-400 hover:underline">
-                            <a href={`https://wa.me/${msg.whatsapp.replace(/\D/g, '').replace(/^0+/, '62')}`} target="_blank" rel="noopener noreferrer">
-                              💬 {msg.whatsapp}
-                            </a>
+                            {msg.whatsapp ? (
+                              <a href={`https://wa.me/${msg.whatsapp.replace(/\D/g, '').replace(/^0+/, '62')}`} target="_blank" rel="noopener noreferrer">
+                                💬 {msg.whatsapp}
+                              </a>
+                            ) : (
+                              <span className="text-gray-500">-</span>
+                            )}
                           </div>
                         </td>
                         <td className="p-4 text-gray-300 max-w-xs md:max-w-md break-words">{msg.message}</td>
