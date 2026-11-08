@@ -1,27 +1,32 @@
-import { supabase } from '@/lib/supabase.js';
+import { createClient } from '@supabase/supabase-js'; // 1. Import createClient langsung
 import Link from 'next/link';
 
-// Fungsi untuk mengambil statistik data dari Supabase
 async function getDashboardStats() {
-  // 1. Hitung total portofolio
-  const { count: portfolioCount, error: portfolioError } = await supabase
+  // 2. Inisialisasi client admin khusus di sisi server untuk bypass RLS
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+
+  // 3. Hitung total portofolio (menggunakan supabaseAdmin)
+  const { count: portfolioCount, error: portfolioError } = await supabaseAdmin
     .from('portfolios')
     .select('*', { count: 'exact', head: true });
 
-  // 2. Hitung total pesan masuk
-  const { count: messageCount, error: messageError } = await supabase
+  // 4. Hitung total pesan masuk (menggunakan supabaseAdmin agar tidak terblock RLS)
+  const { count: messageCount, error: messageError } = await supabaseAdmin
     .from('messages')
     .select('*', { count: 'exact', head: true });
 
-  // 3. Ambil 3 pesan masuk terbaru untuk ringkasan cepat
-  const { data: recentMessages } = await supabase
+  // 5. Ambil 3 pesan masuk terbaru untuk ringkasan cepat
+  const { data: recentMessages } = await supabaseAdmin
     .from('messages')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(3);
 
   if (portfolioError || messageError) {
-    console.error('Gagal memuat statistik dashboard');
+    console.error('Gagal memuat statistik dashboard:', portfolioError || messageError);
   }
 
   return {
