@@ -31,7 +31,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <main className="min-h-screen bg-gray-900 text-white p-8">
+    <main className="text-white">
       <div className="max-w-5xl mx-auto">
         {/* Navigasi Panel Admin */}
         <div className="flex justify-between items-center mb-8">
@@ -39,9 +39,6 @@ useEffect(() => {
             <h1 className="text-2xl font-bold text-indigo-400">ScareCroft Admin — Pesan Masuk</h1>
             <p className="text-gray-400 text-sm mt-1">Daftar leads dan konsultasi dari landing page.</p>
           </div>
-          <Link href="/" className="bg-gray-800 hover:bg-gray-750 text-indigo-400 border border-gray-700 font-medium px-4 py-2 rounded text-sm transition">
-            ⬅️ Tambah Portofolio
-          </Link>
         </div>
 
         {/* Status Loading / Error */}
@@ -87,7 +84,7 @@ useEffect(() => {
                             )}
                           </div>
                         </td>
-                        <td className="p-4 text-gray-300 max-w-xs md:max-w-md break-words">{msg.message}</td>
+                        <td className="p-4 text-gray-300 max-w-xs md:max-w-md wrap-break-word">{msg.message}</td>
                       </tr>
                     ))}
                   </tbody>
