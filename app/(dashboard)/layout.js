@@ -127,7 +127,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* 6. AREA KONTEN UTAMA (Menyesuaikan padding kiri di desktop) */}
-      <div className="flex-1 lg:pl-48">
+      <div className="flex-1 lg:pl-48 w-full min-w-0">
         <div className="p-4 lg:p-8">
           {children}
         </div>
