@@ -39,10 +39,10 @@ export default function DashboardLayout({ children }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col md:flex-row">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col lg:flex-row">
       
       {/* 3. TOMBOL BURGER (Hanya muncul di HP / layar di bawah md) */}
-      <div className="md:hidden bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center sticky top-0 z-20">
+      <div className="lg:hidden bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center sticky top-0 z-20">
         <div className="flex gap-2 items-center">
           <img src="/logo.png" alt="Logo" className="w-8 h-8" />
           <span className="font-bold text-indigo-400">ScareCroft</span>
@@ -67,13 +67,13 @@ export default function DashboardLayout({ children }) {
       {/* 4. OVERLAY HITAM (Menutup konten saat menu kebuka di HP) */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-10 md:hidden"
+          className="fixed inset-0 bg-black/50 z-10 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* 5. SIDEBAR RESPONSIF */}
-      <aside className={`w-48 bg-gray-800 border-r border-gray-700 flex flex-col justify-between fixed h-full z-10 transition-transform duration-300 md:translate-x-0 ${
+      <aside className={`w-48 bg-gray-800 border-r border-gray-700 flex flex-col justify-between fixed h-full z-10 transition-transform duration-300 lg:translate-x-0 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div>
@@ -127,8 +127,8 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* 6. AREA KONTEN UTAMA (Menyesuaikan padding kiri di desktop) */}
-      <div className="flex-1 md:pl-48">
-        <div className="p-4 md:p-8">
+      <div className="flex-1 lg:pl-48">
+        <div className="p-4 lg:p-8">
           {children}
         </div>
       </div>
